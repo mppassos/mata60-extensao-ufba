@@ -23,7 +23,7 @@ __pycache__/
 *.dump
 
 # PDF gerado localmente
-*.pdf
+# *.pdf
 
 # Evitar binários / imagens fora da pasta docs/prints
 *.png
