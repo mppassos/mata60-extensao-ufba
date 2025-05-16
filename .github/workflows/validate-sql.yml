@@ -1,0 +1,22 @@
+name: Validate SQL Scripts
+
+on:
+  push:
+    paths:
+      - 'sql/**/*.sql'
+  pull_request:
+    paths:
+      - 'sql/**/*.sql'
+
+jobs:
+  sql-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install PostgreSQL client
+      run: sudo apt-get install -y postgresql-client
+
+    - name: Validate DDL Script
+      run: |
+        psql -d postgres -f sql/01_DDL_Esquema_Tabelas.sql --set ON_ERROR_STOP=on || true

@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Word/LibreOffice temporários
+~$*.docx
+*.tmp
+*.bak
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Python virtual envs (caso use futuramente)
+venv/
+__pycache__/
+
+# SQL dumps temporários
+*.log
+*.backup
+*.dump
+
+# PDF gerado localmente
+*.pdf
+
+# Evitar binários / imagens fora da pasta docs/prints
+*.png
+!docs/*.png
+!prints/**/*.png
