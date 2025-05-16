@@ -1,4 +1,7 @@
-📄 [Visualizar Relatório SBC (PDF)](https://mppassos.github.io/mata60-extensao-ufba/Relatorio_SBC.pdf)
+📄 **[Relatório SBC - Visualizar PDF](https://mppassos.github.io/mata60-extensao-ufba/Relatorio_SBC.pdf)**
+
+🗂️ Versão: `v1.0-entrega1`
+📅 Última atualização: `Maio/2025`
 
 # Sistema de Gestão de Atividades de Extensão - UFBA (MATA60)
 
