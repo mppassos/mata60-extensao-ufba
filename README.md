@@ -1,3 +1,5 @@
+📄 [Visualizar Relatório SBC (PDF)](https://mppassos.github.io/mata60-extensao-ufba/Relatorio_SBC.pdf)
+
 # Sistema de Gestão de Atividades de Extensão - UFBA (MATA60)
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
