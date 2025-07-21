@@ -21,38 +21,6 @@ Sistema acadêmico para gestão de atividades de extensão promovidas pelo Insti
 
 ---
 
-## 📁 Estrutura de Diretórios
-
-/
-├── docs/
-│ ├── Relatorio_SBC.pdf
-│ ├── Conceptual model – BRMW.pdf
-│ ├── !LinkModeloLogico.png [(https://app.brmodeloweb.com/#!/publicview/687d1ca85c750c6e5d543c02)]
-│ └── TemplatePerformance.xlsx
-├── sql/
-│ ├── auditoria/
-│ │ ├── FC_AUDITA_PARTICIPANTE.sql
-│ │ └── TA_AUDITORIA_LOG_PARTICIPANTE.sql
-│ ├── procedures/
-│ │ ├── SP_INSERE_PARTICIPANTE_COM_INSCRICAO.sql
-│ │ ├── SP_CADASTRA_OU_ATUALIZA_FEEDBACK.sql
-│ │ └── SP_ATUALIZA_CERTIFICADOS.sql
-│ ├── 01_DDL_Esquema_Tabelas.sql
-│ ├── 02_DML_Populacao_Dados.sql
-│ ├── 03_Indices_Consultas.sql
-│ ├── 04_Materialized_Views.sql
-│ ├── 05_REFRESH_VIEWS.sh
-│ ├── 07_Triggers_Auditoria.sql
-│ └── 08_Backup_PBR2.sh
-├── prints/Resultados_Consultas/
-│ ├── Consulta1.png
-│ └── Consulta2.png
-├── deploy_test.sh
-├── README.md
-└── LICENSE
-
----
-
 ## ⚙️ Pré-requisitos
 
 - PostgreSQL 15+
