@@ -1,106 +1,151 @@
-📄 **[Relatório SBC - Visualizar PDF](https://mppassos.github.io/mata60-extensao-ufba/Relatorio_SBC.pdf)**
+# Sistema de Gestão de Atividades de Extensão – UFBA (MATA60)
 
-🗂️ Versão: `v1.0-entrega1`
-📅 Última atualização: `Maio/2025`
-
-# Sistema de Gestão de Atividades de Extensão - UFBA (MATA60)
+[📄 **Leia o Relatório SBC (PDF)**](https://mppassos.github.io/mata60-extensao-ufba/Relatorio_SBC.pdf)
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
-![SBC Format](https://img.shields.io/badge/Format-SBC_Book_Chapter-green)
+![Formato SBC](https://img.shields.io/badge/Format-SBC_book_chapter-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
-Projeto acadêmico da disciplina **Banco de Dados (MATA60)** da **UFBA**, com foco em um sistema completo para gestão de atividades de extensão no Instituto de Computação. Modelagem, implementação em PostgreSQL e documentação em formato SBC.
+**Versão:** `v1.0-entrega2` • **Última atualização:** `Julho/2025`
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📌 Descrição do Projeto
 
-```
-.
+Sistema acadêmico para gestão de atividades de extensão promovidas pelo Instituto de Computação da UFBA. Desenvolvido na disciplina MATA60 – Banco de Dados, com foco em:
+
+- Modelagem via ER e SQL padrão (PostgreSQL).
+- Governança de dados, auditabilidade (PPP1), nomenclatura padronizada (MAD1) e backup incremental (PBR2).
+- Rotinas otimizadas: stored procedures, triggers, materialized views, índices.
+- Conformidade com LGPD, segurança e performance.
+
+---
+
+## 📁 Estrutura de Diretórios
+
+/
 ├── docs/
-│   ├── Relatorio_SBC.pdf
-│   ├── MER_Completo.png
-│   └── DicionarioDados.pdf
+│ ├── Relatorio_SBC.pdf
+│ ├── Conceptual model – BRMW.pdf
+│ ├── !LinkModeloLogico.png [(https://app.brmodeloweb.com/#!/publicview/687d1ca85c750c6e5d543c02)]
+│ └── TemplatePerformance.xlsx
 ├── sql/
-│   ├── 01_DDL_Esquema_Tabelas.sql
-│   ├── 02_DML_Populacao_Dados.sql
-│   └── 03_Indices_Consultas.sql
+│ ├── auditoria/
+│ │ ├── FC_AUDITA_PARTICIPANTE.sql
+│ │ └── TA_AUDITORIA_LOG_PARTICIPANTE.sql
+│ ├── procedures/
+│ │ ├── SP_INSERE_PARTICIPANTE_COM_INSCRICAO.sql
+│ │ ├── SP_CADASTRA_OU_ATUALIZA_FEEDBACK.sql
+│ │ └── SP_ATUALIZA_CERTIFICADOS.sql
+│ ├── 01_DDL_Esquema_Tabelas.sql
+│ ├── 02_DML_Populacao_Dados.sql
+│ ├── 03_Indices_Consultas.sql
+│ ├── 04_Materialized_Views.sql
+│ ├── 05_REFRESH_VIEWS.sh
+│ ├── 07_Triggers_Auditoria.sql
+│ └── 08_Backup_PBR2.sh
 ├── prints/Resultados_Consultas/
-│   ├── Consulta1.png
-│   ├── Consulta2.png
-│   └── ...
+│ ├── Consulta1.png
+│ └── Consulta2.png
+├── deploy_test.sh
 ├── README.md
 └── LICENSE
-```
 
 ---
 
-## 🛠️ Pré-requisitos
+## ⚙️ Pré-requisitos
 
-- PostgreSQL 15 ou superior
-- (Opcional) pgAdmin ou DBeaver para interface gráfica
+- PostgreSQL 15+
+- (Opcional) Interface gráfica: pgAdmin, DBeaver ou similar
+- Shell Bash (Linux/macOS/WSL)
 
 ---
 
-## 🚀 Como Executar
+## 🚀 Deploy Simplificado
+
+Use o script `deploy_test.sh` para automatizar:
 
 ```bash
-# 1. Criar banco de dados
-psql -U postgres -c "CREATE DATABASE extensao_ufba;"
-
-# 2. Executar os scripts na ordem
-psql -U postgres -d extensao_ufba -f sql/01_DDL_Esquema_Tabelas.sql
-psql -U postgres -d extensao_ufba -f sql/02_DML_Populacao_Dados.sql
-psql -U postgres -d extensao_ufba -f sql/03_Indices_Consultas.sql
+chmod +x deploy_test.sh
+./deploy_test.sh
 ```
 
----
+Ele executa:
 
-## 🧪 Testes (SQL)
+    Criação do banco extensao_ufba
 
-```sql
--- Contagem de registros
-SELECT 'TB_ATIVIDADE' AS tabela, COUNT(*) FROM TB_ATIVIDADE
-UNION ALL SELECT 'TB_FEEDBACK', COUNT(*) FROM TB_FEEDBACK
-UNION ALL SELECT 'TB_CERTIFICADO', COUNT(*) FROM TB_CERTIFICADO;
+    Habilitação da extensão pgcrypto
 
--- Verificação de índices
-SELECT indexname, indexdef FROM pg_indexes 
-WHERE tablename IN ('tb_feedback', 'tb_certificado');
+    Criação de tabelas, índices, views, triggers e procedures
 
--- Consulta de feedbacks
-SELECT f.ID_FEEDBACK, p.NM_PARTICIPANTE, a.DS_TITULO, f.VL_NOTA, f.DS_COMENTARIO
-FROM TB_FEEDBACK f
-JOIN TB_PARTICIPANTE p ON f.ID_PARTICIPANTE = p.ID_PARTICIPANTE
-JOIN TB_ATIVIDADE a ON f.ID_ATIVIDADE = a.ID_ATIVIDADE;
-```
+    População de dados de teste
 
----
+    Atualização das materialized views
 
-## ✅ Requisitos Atendidos
+    Testes básicos de procedures, views e auditoria
 
-| Funcionalidade                  | Script Relacionado                     |
-|--------------------------------|----------------------------------------|
-| Criação e gerenciamento de atividades | `01_DDL_Esquema_Tabelas.sql`     |
-| Registro de participantes e presença | `02_DML_Populacao_Dados.sql`     |
-| Emissão de certificados automáticos  | `02_DML_Populacao_Dados.sql`     |
-| Coleta de feedbacks e análises       | `03_Indices_Consultas.sql`       |
-| Otimização via índices               | `03_Indices_Consultas.sql`       |
+💡 Testes Adicionais
 
----
+Depois do deploy, você pode validar manualmente:
 
-## 📄 Licença
+## Listar registros
 
-Este projeto está licenciado sob os termos da [MIT License](LICENSE).
+SELECT
+'TB*ATIVIDADE' AS tabela, COUNT(*) FROM tb*atividade
+UNION ALL
+SELECT
+'TB_FEEDBACK', COUNT(*) FROM tb_feedback
+UNION ALL
+SELECT
+'TB_CERTIFICADO', COUNT(\*) FROM tb_certificado;
 
----
+## Conferir índices relevantes
 
-## 🙌 Autor
+SELECT indexname, indexdef
+FROM pg_indexes WHERE tablename IN ('tb_feedback', 'tb_certificado');
 
-**Matheus Pereira dos Passos Oliveira**  
-Disciplina: Banco de Dados - MATA60  
-Instituto de Computação - UFBA
+## Consultar feedbacks
 
----
-**Projeto desenvolvido sob orientação do Prof. Robespierre Pita (MATA60 – Banco de Dados – UFBA).**
+SELECT f.id_feedback, p.nm_participante, a.ds_titulo,
+f.cd_nota, f.ds_comentario
+FROM tb_feedback f
+JOIN tb_participante p USING (id_participante)
+JOIN tb_atividade a USING (id_atividade);
 
+🛡️ Funcionalidades Cobertas
+
+| Requisito                                     | Script                                             |
+| --------------------------------------------- | -------------------------------------------------- |
+| Modelo relacional, tabelas e constraints      | `01_DDL_Esquema_Tabelas.sql`                       |
+| População para testes e dados iniciais        | `02_DML_Populacao_Dados.sql`                       |
+| Índices e consultas analíticas                | `03_Indices_Consultas.sql`                         |
+| Materia­lized Views (dashboards operacionais) | `04_Materialized_Views.sql`                        |
+| Procedures de CRUD e lógica transacional      | `sql/procedures/*.sql`                             |
+| Auditoria e compliance (PPP1)                 | `sql/auditoria/*.sql`, `07_Triggers_Auditoria.sql` |
+| Backup incremental (PBR2)                     | `08_Backup_PBR2.sh`                                |
+
+📚 Documentação SBC e Dicionário de Dados
+
+Todos os artefatos detalhados estão em docs/, inclusive o PDF para visualização direta:
+
+    Relatorio_SBC.pdf (versão SBC)
+
+    Modelos conceitual e lógico
+
+    Dicionário de dados e planilha de performance
+
+🤝 Contribuição e Contato
+
+Contribuições, dúvidas ou sugestões:
+
+    Abra uma issue no GitHub
+
+    Envie via Matheus Pereira dos Passos Oliveira (MATA60 – Robespierre Pita, IC‑UFBA)
+
+🔐 Licença
+
+Licenciado sob a MIT License – veja o arquivo LICENSE para mais informações.
+
+Desenvolvido por Matheus Pereira dos Passos Oliveira
+Orientador: Prof. Robespierre Pita (MATA60 – Banco de Dados – UFBA)
+Finalizado em Julho de 2025 🚀

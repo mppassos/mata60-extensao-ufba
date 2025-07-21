@@ -1,0 +1,34 @@
+-- ATIVAR -- 
+--CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+CREATE OR REPLACE PROCEDURE SP_ATUALIZA_CERTIFICADOS(
+  IN p_id_atividade INTEGER,
+  IN p_presenca_minima INTEGER DEFAULT 75
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  r RECORD;
+  v_hash TEXT;
+BEGIN
+  FOR r IN
+    SELECT ID_PARTICIPANTE
+    FROM RL_ATIVIDADE_PARTICIPANTE
+    WHERE ID_ATIVIDADE = p_id_atividade
+      AND IS_PRESENCA = TRUE
+  LOOP
+
+    SELECT encode(digest(concat(p_id_atividade::TEXT, '-', r.ID_PARTICIPANTE::TEXT, '-', now()::TEXT), 'sha256'), 'hex')
+    INTO v_hash;
+
+    IF NOT EXISTS (
+      SELECT 1 FROM TB_CERTIFICADO
+      WHERE ID_ATIVIDADE = p_id_atividade
+        AND ID_PARTICIPANTE = r.ID_PARTICIPANTE
+    ) THEN
+      INSERT INTO TB_CERTIFICADO (CD_HASH, DT_EMISSAO, ID_ATIVIDADE, ID_PARTICIPANTE)
+      VALUES (v_hash, CURRENT_DATE, p_id_atividade, r.ID_PARTICIPANTE);
+    END IF;
+  END LOOP;
+END;
+$$;
