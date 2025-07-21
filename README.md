@@ -1,7 +1,5 @@
 # Sistema de Gestão de Atividades de Extensão – UFBA (MATA60)
 
-[📄 **Leia o Relatório SBC (PDF)**](https://mppassos.github.io/mata60-extensao-ufba/Relatorio_SBC.pdf)
-
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
 ![Formato SBC](https://img.shields.io/badge/Format-SBC_book_chapter-green)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
